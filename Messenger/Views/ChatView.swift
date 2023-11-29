@@ -9,7 +9,12 @@ import SwiftUI
 
 struct ChatView: View {
     var body: some View {
-        Text("")
+        ScrollView(.vertical) {
+            ChatRow(type: .sent)
+                .padding(3)
+            ChatRow(type: .received)
+                .padding(3)
+        }
     }
 }
 

@@ -8,11 +8,52 @@
 import SwiftUI
 
 struct ChatRow: View {
+
+    let type: MessageType
+
+    var isSender: Bool {
+        return type == .sent
+    }
+
+    init(type: MessageType) {
+        self.type = type
+    }
+
     var body: some View {
-        Text("")
+        HStack {
+
+            if isSender { Spacer() }
+
+            if !isSender {
+                // User icon
+                VStack {
+                    Spacer() // indentation so that the icon is at the bottom
+                    Circle()
+                        .frame(width: 45, height: 45)
+                        .foregroundStyle(Color(.systemPink))
+                }
+            }
+
+            // Message
+            HStack {
+                Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat")
+                    .foregroundStyle(isSender ? Color.white : Color(.label))
+                    .padding()
+
+            }
+            .background(isSender ? Color.blue : Color(.systemGray4))
+            .padding(isSender ? .leading : .trailing,
+                     isSender ? UIScreen.main.bounds.width/3 : UIScreen.main.bounds.width/5)
+            .clipShape(RoundedRectangle(cornerRadius: 6))
+
+            if !isSender { Spacer() }
+        }
     }
 }
 
 #Preview {
-    ChatRow()
+    Group {
+        ChatRow(type: .sent)
+        ChatRow(type: .received)
+    }
 }

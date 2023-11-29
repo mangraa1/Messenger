@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+
+enum MessageType {
+    case sent
+    case received
+}
