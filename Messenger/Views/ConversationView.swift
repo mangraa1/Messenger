@@ -35,7 +35,29 @@ struct ConversationListView: View {
                 }
             }
             .navigationTitle("Conversations")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(content: {
+                // Sign Out
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Sign Out") {
+                        self.signOut()
+                    }
+                }
+
+                // Search users
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink(destination: SearchView()) {
+                        Image(systemName: "magnifyingglass")
+                    }
+                }
+            })
         }
+    }
+
+
+    //MARK: - Functions
+    func signOut() {
+        
     }
 }
 
