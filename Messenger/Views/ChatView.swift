@@ -7,6 +7,16 @@
 
 import SwiftUI
 
+// Specific template to create TextField
+struct CustomField: ViewModifier {
+    func body(content: Content) -> some View {
+        return content
+            .padding()
+            .background(Color(.secondarySystemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 7))
+    }
+}
+
 struct ChatView: View {
 
     // When the value changes, redraws the view
@@ -30,9 +40,7 @@ struct ChatView: View {
             // Message field
             HStack {
                 TextField("Message...", text: $message)
-                    .padding()
-                    .background(Color(.secondarySystemBackground))
-                    .clipShape(RoundedRectangle(cornerRadius: 7))
+                    .modifier(CustomField())
 
                 SendButton(text: $message)
             }
