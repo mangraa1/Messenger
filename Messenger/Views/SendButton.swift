@@ -27,7 +27,6 @@ struct SendButton: View {
         }
     }
 
-
     //MARK: - Functions
     func sendMessage() {
         guard !text.isEmpty else { return }

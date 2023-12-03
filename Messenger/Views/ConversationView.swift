@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ConversationListView: View {
 
+    @EnvironmentObject var model: AppStateModel
+
     @State var otherUsername: String = ""
     @State var showChat = false
 
@@ -44,7 +46,7 @@ struct ConversationListView: View {
             }
             .navigationTitle("Conversations")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar(content: {
+            .toolbar {
                 // Sign Out
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Sign Out") {
@@ -64,10 +66,12 @@ struct ConversationListView: View {
                         Image(systemName: "magnifyingglass")
                     })
                 }
-            })
+            }
+            .fullScreenCover(isPresented: $model.showingSignIn) {
+                SignInView()
+            }
         }
     }
-
 
     //MARK: - Functions
     func signOut() {
