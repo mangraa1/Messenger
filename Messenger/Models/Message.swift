@@ -12,3 +12,9 @@ enum MessageType {
     case sent
     case received
 }
+
+struct Message {
+    var text: String
+    var type: MessageType
+    var Created: String // Data
+}

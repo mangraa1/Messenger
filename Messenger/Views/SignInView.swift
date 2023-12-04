@@ -26,7 +26,7 @@ struct SignInView: View {
                     .bold()
                     .font(.system(size: 34))
 
-                // TestFields
+                // TextFields
                 VStack {
                     TextField("Username", text: $username)
                         .modifier(CustomField())
@@ -37,7 +37,7 @@ struct SignInView: View {
 
                 // Sign In
                 Button(action: {
-                    model.signIn(username: username, password: password)
+                    self.signIn()
                 }, label: {
                     Text("Sign In")
                         .foregroundStyle(Color.white)
@@ -56,6 +56,15 @@ struct SignInView: View {
             }
             .padding()
         }
+    }
+
+    //MARK: - Functions
+    func signIn() {
+        guard !username.trimmingCharacters(in: .whitespaces).isEmpty,
+              !password.trimmingCharacters(in: .whitespaces).isEmpty,
+              password.count <= 6 else { return }
+
+        model.signIn(username: username, password: password)
     }
 }
 
