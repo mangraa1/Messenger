@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		041933D52B20B19F00C15819 /* GoogleService-Info-2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 041933D42B20B19F00C15819 /* GoogleService-Info-2.plist */; };
+		041933D52B20B19F00C15819 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 041933D42B20B19F00C15819 /* GoogleService-Info.plist */; };
 		041933D82B20B29800C15819 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 041933D72B20B29800C15819 /* FirebaseAnalytics */; };
 		041933DA2B20B29800C15819 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 041933D92B20B29800C15819 /* FirebaseAnalyticsOnDeviceConversion */; };
 		041933DC2B20B29800C15819 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 041933DB2B20B29800C15819 /* FirebaseAnalyticsSwift */; };
@@ -50,7 +50,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		041933D42B20B19F00C15819 /* GoogleService-Info-2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-2.plist"; sourceTree = "<group>"; };
+		041933D42B20B19F00C15819 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		04319B872B161D4500946A1F /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		04319B892B161D4C00946A1F /* AppStateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateModel.swift; sourceTree = "<group>"; };
 		04319B8B2B161D5F00946A1F /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
@@ -131,7 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				04D2A78F2B14F1670038CD30 /* MessengerApp.swift */,
-				041933D42B20B19F00C15819 /* GoogleService-Info-2.plist */,
+				041933D42B20B19F00C15819 /* GoogleService-Info.plist */,
 				04D2A7932B14F1690038CD30 /* Assets.xcassets */,
 			);
 			path = Resources;
@@ -264,7 +264,7 @@
 			files = (
 				04D2A7972B14F1690038CD30 /* Preview Assets.xcassets in Resources */,
 				04D2A7942B14F1690038CD30 /* Assets.xcassets in Resources */,
-				041933D52B20B19F00C15819 /* GoogleService-Info-2.plist in Resources */,
+				041933D52B20B19F00C15819 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

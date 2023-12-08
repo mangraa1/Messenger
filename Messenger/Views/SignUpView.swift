@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SignUpView: View {
+    @EnvironmentObject var model: AppStateModel
 
     @State var username: String = ""
     @State var password: String = ""
@@ -31,12 +32,18 @@ struct SignUpView: View {
                 VStack {
                     TextField("Email", text: $email)
                         .modifier(CustomField())
+                        .autocorrectionDisabled()
+                        .autocapitalization(.none)
 
                     TextField("Username", text: $username)
                         .modifier(CustomField())
+                        .autocorrectionDisabled()
+                        .autocapitalization(.none)
 
                     SecureField("Password", text: $password)
                         .modifier(CustomField())
+                        .autocorrectionDisabled()
+                        .autocapitalization(.none)
                 }
 
                 // Sign In
@@ -64,6 +71,8 @@ struct SignUpView: View {
               !username.trimmingCharacters(in: .whitespaces).isEmpty,
               !password.trimmingCharacters(in: .whitespaces).isEmpty,
               password.count <= 6 else { return }
+
+        model.signUp(email: email, username: username, password: password)
     }
 }
 
