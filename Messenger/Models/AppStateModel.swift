@@ -33,6 +33,18 @@ class AppStateModel: ObservableObject {
 extension AppStateModel {
     func searchUsers(queryText: String, completion: @escaping ([String]) -> Void) {
 
+        database.collection("users").getDocuments { snapshot, error in
+            guard let usernames = snapshot?.documents.compactMap({ $0.documentID }), error == nil else {
+                completion([])
+                return
+            }
+
+            // Found name
+            var filtred = usernames.filter({
+                $0.lowercased().hasPrefix(queryText.lowercased())
+            })
+            completion(filtred)
+        }
     }
 }
 

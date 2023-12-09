@@ -10,12 +10,13 @@ import SwiftUI
 
 struct SearchView: View {
 
+    @EnvironmentObject var model: AppStateModel
     @Environment(\.dismiss) var dissmiss
 
     @State private var selectedName: String?
     @State var text: String = ""
+    @State var usernames: [String] = []
 
-    let usernames = ["Tailer"]
     let completion: (String) -> Void // We pass the name of the user we found
 
     init(completion: @escaping (String) -> Void) {
@@ -26,9 +27,14 @@ struct SearchView: View {
         VStack {
             TextField("Username...", text: $text)
                 .modifier(CustomField())
-            
+                .autocorrectionDisabled()
+
             Button("Search") {
-                // Button action
+                guard !text.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+
+                model.searchUsers(queryText: text) { usernames in
+                    self.usernames = usernames
+                }
             }
             .padding()
 
