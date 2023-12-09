@@ -14,13 +14,11 @@ struct ConversationListView: View {
     @State var otherUsername: String = ""
     @State var showChat = false
 
-    let usernames = ["John", "Tailer", "Jack"]
-
     var body: some View {
 
         NavigationView {
             ScrollView(.vertical) {
-                ForEach(usernames, id: \.self) { name in
+                ForEach(model.conversations, id: \.self) { name in
                     NavigationLink(destination: ChatView(otherUsername: name)) {
                         // User chats
                         HStack {
@@ -69,6 +67,10 @@ struct ConversationListView: View {
             }
             .fullScreenCover(isPresented: $model.showingSignIn) {
                 SignInView()
+            }
+            .onAppear() {
+                guard model.auth.currentUser != nil else { return }
+                model.getConversations()
             }
         }
     }

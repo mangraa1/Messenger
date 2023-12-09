@@ -22,6 +22,7 @@ class AppStateModel: ObservableObject {
     let auth = Auth.auth()
 
     var otherUsername: String = ""
+    var conversationsListener: ListenerRegistration?
 
     init() {
         // Checking whether there is currently an active session
@@ -40,7 +41,7 @@ extension AppStateModel {
             }
 
             // Found name
-            var filtred = usernames.filter({
+            let filtred = usernames.filter({
                 $0.lowercased().hasPrefix(queryText.lowercased())
             })
             completion(filtred)
@@ -49,6 +50,27 @@ extension AppStateModel {
 }
 
 // Conversations
+extension AppStateModel {
+    func getConversations() {
+        // Listen for Conversations
+
+        conversationsListener =  database
+            .collection("users")
+            .document(currentUsername)
+            .collection("chats").addSnapshotListener {[weak self] snapshot, error in
+
+                guard let usernames = snapshot?.documents.compactMap({ $0.documentID }) else {
+                    return
+                }
+
+                DispatchQueue.main.async {
+                    self?.conversations = usernames
+                }
+            }
+    }
+}
+
+// Get Chat / Send messages
 extension AppStateModel {
     func observeChat() {
 
@@ -61,11 +83,6 @@ extension AppStateModel {
     func createConversationsIfNeeded() {
 
     }
-}
-
-// Get Chat / Send messages
-extension AppStateModel {
-
 }
 
 // Sign In & Sign Up
