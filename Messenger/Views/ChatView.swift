@@ -18,6 +18,7 @@ struct CustomField: ViewModifier {
 }
 
 struct ChatView: View {
+    @EnvironmentObject var model: AppStateModel
 
     // When the value changes, redraws the view
     @State var message: String = ""
@@ -31,10 +32,9 @@ struct ChatView: View {
         VStack {
             // Chat messages
             ScrollView(.vertical) {
-                ChatRow(text: "Hello, World", type: .sent)
-                    .padding(3)
-                ChatRow(text: "Hello",type: .received)
-                    .padding(3)
+                ForEach(model.messages, id: \.self) { message in
+                    ChatRow(text: "Hello, World", type: .sent)
+                }
             }
 
             // Message field
@@ -48,6 +48,10 @@ struct ChatView: View {
             .frame(width: UIScreen.main.bounds.width, height: 57)
         }
         .navigationTitle(otherUsername)
+        .onAppear() {
+            model.otherUsername = otherUsername
+            model.observeChat()
+        }
     }
 }
 

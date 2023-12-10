@@ -13,8 +13,8 @@ enum MessageType {
     case received
 }
 
-struct Message {
+struct Message: Hashable {
     var text: String
     var type: MessageType
-    var Created: String // Data
+    var created: Date
 }

@@ -23,6 +23,7 @@ class AppStateModel: ObservableObject {
 
     var otherUsername: String = ""
     var conversationsListener: ListenerRegistration?
+    var chatListener: ListenerRegistration?
 
     init() {
         // Checking whether there is currently an active session
@@ -59,7 +60,7 @@ extension AppStateModel {
             .document(currentUsername)
             .collection("chats").addSnapshotListener {[weak self] snapshot, error in
 
-                guard let usernames = snapshot?.documents.compactMap({ $0.documentID }) else {
+                guard let usernames = snapshot?.documents.compactMap({ $0.documentID }), error == nil else {
                     return
                 }
 
@@ -73,15 +74,52 @@ extension AppStateModel {
 // Get Chat / Send messages
 extension AppStateModel {
     func observeChat() {
+        createConversations()
 
+        chatListener = database
+            .collection("users")
+            .document()
+            .collection("chats")
+            .document(otherUsername)
+            .collection("messanges").addSnapshotListener {[weak self] snapshot, error in
+
+                // Get messages as an array of objects
+                guard let objects = snapshot?.documents.compactMap({ $0.data() }), error == nil else {
+                    return
+                }
+
+                // Parsing objects from the database into an array of messages
+                let messanges = objects.compactMap({
+                    return Message(
+                        text: $0["text"] as? String ?? "",
+                        type: $0["sender"] as? String == self?.currentUsername ? .sent : .received,
+                        created: DateFormatter().date(from: $0["created"] as? String ?? "") ?? Date()
+                    )
+                })
+
+                DispatchQueue.main.async {
+                    self?.messages = messanges
+                }
+            }
     }
 
     func sendMessage(text: String) {
 
     }
 
-    func createConversationsIfNeeded() {
+    func createConversations() {
 
+        // Adding an interlocutor to the general list of chats for the current user
+        database.collection("users")
+            .document(currentUsername)
+            .collection("chats")
+            .document(otherUsername).setData(["created": "true"])
+
+        // Creating a chat for the user with whom you started the dialogue
+        database.collection("users")
+            .document(otherUsername)
+            .collection("chats")
+            .document(currentUsername).setData(["created": "true"])
     }
 }
 
