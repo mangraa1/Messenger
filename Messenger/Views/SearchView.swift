@@ -28,6 +28,7 @@ struct SearchView: View {
             TextField("Username...", text: $text)
                 .modifier(CustomField())
                 .autocorrectionDisabled()
+                .autocapitalization(.none)
 
             Button("Search") {
                 guard !text.trimmingCharacters(in: .whitespaces).isEmpty else { return }

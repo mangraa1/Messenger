@@ -55,7 +55,7 @@ extension AppStateModel {
     func getConversations() {
         // Listen for Conversations
 
-        conversationsListener =  database
+        conversationsListener = database
             .collection("users")
             .document(currentUsername)
             .collection("chats").addSnapshotListener {[weak self] snapshot, error in
@@ -78,10 +78,10 @@ extension AppStateModel {
 
         chatListener = database
             .collection("users")
-            .document()
+            .document(currentUsername)
             .collection("chats")
             .document(otherUsername)
-            .collection("messanges").addSnapshotListener {[weak self] snapshot, error in
+            .collection("messages").addSnapshotListener {[weak self] snapshot, error in
 
                 // Get messages as an array of objects
                 guard let objects = snapshot?.documents.compactMap({ $0.data() }), error == nil else {
@@ -89,22 +89,49 @@ extension AppStateModel {
                 }
 
                 // Parsing objects from the database into an array of messages
-                let messanges = objects.compactMap({
+                let messages = objects.compactMap({
                     return Message(
                         text: $0["text"] as? String ?? "",
                         type: $0["sender"] as? String == self?.currentUsername ? .sent : .received,
-                        created: DateFormatter().date(from: $0["created"] as? String ?? "") ?? Date()
+                        created: ISO8601DateFormatter().date(from: $0["created"] as? String ?? "") ?? Date()
                     )
-                })
+                }).sorted { first, second in    // Order in which chat messages are displayed
+                    return first.created < second.created
+                }
 
                 DispatchQueue.main.async {
-                    self?.messages = messanges
+                    self?.messages = messages
                 }
             }
     }
 
     func sendMessage(text: String) {
+        let newMessageId = UUID().uuidString
 
+        // Message data
+        let data = [
+            "text": text,
+            "sender": currentUsername,
+            "created": ISO8601DateFormatter().string(from: Date())
+        ]
+
+        // The message is saved for the user
+        database.collection("users")
+            .document(currentUsername)
+            .collection("chats")
+            .document(otherUsername)
+            .collection("messages")
+            .document(newMessageId)
+            .setData(data)
+
+        // The message is saved for the interlocutor
+        database.collection("users")
+            .document(otherUsername)
+            .collection("chats")
+            .document(currentUsername)
+            .collection("messages")
+            .document(newMessageId)
+            .setData(data)
     }
 
     func createConversations() {

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SendButton: View {
+    @EnvironmentObject var model: AppStateModel
 
     // Changes in one view are automatically reflected in the other
     @Binding var text: String
@@ -29,7 +30,11 @@ struct SendButton: View {
 
     //MARK: - Functions
     func sendMessage() {
-        guard !text.isEmpty else { return }
+        guard !text.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+
+        model.sendMessage(text: text)
+
+        text = ""
     }
 }
 
