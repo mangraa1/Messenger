@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ChatRow: View {
+    @EnvironmentObject var model: AppStateModel
 
     let type: MessageType
     let text: String
@@ -30,9 +31,12 @@ struct ChatRow: View {
                 // User icon
                 VStack {
                     Spacer() // indentation so that the icon is at the bottom
-                    Circle()
+                    Image(model.currentUsername == "Heorhii" ? "manPhoto": "girlPhoto")
+                        .resizable()
+                        .scaledToFit()
                         .frame(width: 45, height: 45)
                         .foregroundStyle(Color(.systemPink))
+                        .clipShape(Circle())
                 }
             }
 

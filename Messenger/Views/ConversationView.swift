@@ -22,9 +22,12 @@ struct ConversationListView: View {
                     NavigationLink(destination: ChatView(otherUsername: name)) {
                         // User chats
                         HStack {
-                            Circle()
+                            Image(model.currentUsername == "Heorhii2" ? "manPhoto": "girlPhoto")
+                                .resizable()
+                                .scaledToFill()
                                 .frame(width: 45, height: 45)
                                 .foregroundStyle(Color(.systemPink))
+                                .clipShape(Circle())
 
                             Text(name)
                                 .bold()
@@ -43,7 +46,6 @@ struct ConversationListView: View {
                 }
             }
             .navigationTitle("Conversations")
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 // Sign Out
                 ToolbarItem(placement: .topBarLeading) {
@@ -83,4 +85,5 @@ struct ConversationListView: View {
 
 #Preview {
     ConversationListView()
+        .environmentObject(AppStateModel())
 }

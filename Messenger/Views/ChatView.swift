@@ -50,6 +50,7 @@ struct ChatView: View {
             .frame(width: UIScreen.main.bounds.width, height: 57)
         }
         .navigationTitle(otherUsername)
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear() {
             model.otherUsername = otherUsername
             model.observeChat()
